@@ -1,0 +1,27 @@
+<div class="digital-clock card" (mouseenter)="hideFormatters = !hideFormatters"
+    (mouseleave)="hideFormatters = !hideFormatters">
+    <div class="card-header"  *ngIf="!hideFormatters">
+        <div class="row">
+            <select class="form-select col m-2" (click)="changeHoursFormat($event)">
+                <option selected>{{selectedHoursFormat}}</option>
+                <ng-container *ngFor="let hoursFormat of hoursFormats">
+                    <option *ngIf="hoursFormat!==selectedHoursFormat" [value]="hoursFormat">{{hoursFormat}}</option>
+                </ng-container>
+            </select>
+            <select class="form-select col  m-2" (click)="changeMinutesFormat($event)">
+                <option selected>{{selectedMinutesFormat}}</option>
+                <ng-container *ngFor="let minutesFormat of minutesFormats">
+                    <option *ngIf="minutesFormat!==selectedMinutesFormat" [value]="minutesFormat">{{minutesFormat}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div class="time card-body">
+        <div class="hours-indicator ml-2 mr-2">{{hoursIndicator}}</div>
+        <div class="separator ml-2 mr-2">:</div>
+        <div class="minutes-indicator ">{{minutesIndicator}}</div>
+        <div class="separator ml-2 mr-2">:</div>
+        <div class="seconds-indicator ">{{secondsIndicator}}</div>
+        <div class="ampm-indicator ml-2 mr-2" *ngIf="showTwelveHourConvention">{{twelveHourConventionIndicator}}</div>
+    </div>
+</div>

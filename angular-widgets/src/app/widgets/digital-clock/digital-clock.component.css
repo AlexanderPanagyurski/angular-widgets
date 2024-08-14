@@ -1,0 +1,15 @@
+.digital-clock {
+    width: 40%;
+    margin: 10% 30%;
+}
+
+.card-body {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: auto;
+    font-size: 5vw;
+}
+
+.form-select {
+    width:50%;
+}
