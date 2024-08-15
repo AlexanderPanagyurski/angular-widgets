@@ -1,5 +1,14 @@
+@font-face {
+    font-family: DigitalNumbersFont;
+    src: url('../fonts/DigitalNumbers-Regular.ttf');
+}
+
+.time {
+    font-family: DigitalNumbersFont;
+}
+
 .digital-clock {
-    width: 40%;
+    width: 50%;
     position: absolute;
 }
 
@@ -7,7 +16,7 @@
     display: flex;
     flex-wrap: nowrap;
     margin: auto;
-    font-size: 5vw;
+    font-size: 4.0rem;
 }
 
 .form-select {
@@ -17,3 +26,48 @@
 .time {
     cursor: move;
 }
+
+
+@media screen and (max-width: 1250px) {
+    .time {
+        font-size: 3.0rem
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .time {
+        font-size: 2.0rem
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    .time {
+        font-size: 1.5rem
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .time {
+        font-size: 1.0rem
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .time {
+        font-size: 0.8rem
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .time {
+        font-size: 0.5rem;
+    }
+  }
+
+  
+  @media screen and (max-width: 300px) {
+    .card-body {
+        padding: 10px 0px 10px 0px;
+        font-size: 0.5rem;
+    }
+  }

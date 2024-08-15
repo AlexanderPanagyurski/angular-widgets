@@ -30,7 +30,8 @@ export class DigitalClockComponent implements OnInit {
   public showTwelveHourConvention = true;
   public twelveHourConventionIndicator: string | undefined;
 
-  constructor(@Inject(DOCUMENT) private document: Document,
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
     private el: ElementRef) { }
 
 
@@ -55,10 +56,10 @@ export class DigitalClockComponent implements OnInit {
     this.updateDate(date, this.selectedHoursFormat, selectedMinutesFormat);
   }
 
-  startDrag($event: any): void {
-    $event.preventDefault();
-    const mouseX = $event.clientX;
-    const mouseY = $event.clientY;
+  startDrag(event: any): void {
+    event.preventDefault();
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
 
     const positionX = this.position.x;
     const positionY = this.position.y;
@@ -96,7 +97,6 @@ export class DigitalClockComponent implements OnInit {
 
     if (selectedHoursFormat === 'h') {
       this.showTwelveHourConvention = true;
-      this.selectedHoursFormat = selectedHoursFormat;
       this.hoursIndicator = hours % 12;
       this.hoursIndicator = this.hoursIndicator ? this.hoursIndicator : 12;
     }
