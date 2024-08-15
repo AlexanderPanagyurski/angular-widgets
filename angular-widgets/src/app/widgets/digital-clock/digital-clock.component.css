@@ -1,6 +1,6 @@
 .digital-clock {
     width: 40%;
-    margin: 10% 30%;
+    position: absolute;
 }
 
 .card-body {
@@ -12,4 +12,8 @@
 
 .form-select {
     width:50%;
+}
+
+.time {
+    cursor: move;
 }

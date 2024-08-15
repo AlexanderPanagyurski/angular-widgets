@@ -1,6 +1,12 @@
-<div class="digital-clock card" (mouseenter)="hideFormatters = !hideFormatters"
-    (mouseleave)="hideFormatters = !hideFormatters">
-    <div class="card-header"  *ngIf="!hideFormatters">
+<div 
+    #wrapper
+    class="digital-clock card"
+    [attr.draggable]="true"
+    [style.top.px]="position.y"
+    [style.left.px]="position.x"
+    (mouseenter)="manageFormatters(hideFormatters)" (mouseleave)="manageFormatters(hideFormatters)">
+    <div class="card-header"
+      *ngIf="!hideFormatters">
         <div class="row">
             <select class="form-select col m-2" (click)="changeHoursFormat($event)">
                 <option selected>{{selectedHoursFormat}}</option>
@@ -16,7 +22,7 @@
             </select>
         </div>
     </div>
-    <div class="time card-body">
+    <div class="time card-body" (mousedown)="startDrag($event)">
         <div class="hours-indicator ml-2 mr-2">{{hoursIndicator}}</div>
         <div class="separator ml-2 mr-2">:</div>
         <div class="minutes-indicator ">{{minutesIndicator}}</div>

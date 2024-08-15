@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-digital-clock',
@@ -7,12 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DigitalClockComponent implements OnInit {
 
+  @ViewChild('wrapper') wrapperRef!: ElementRef;
+
+  position: { x: number, y: number } = { x: 100, y: 100 };
+
+  size: { w: number, h: number } = { w: 200, h: 200 };
+
+  lastPosition: { x: number; y: number; } | undefined;
+
   hideFormatters: boolean = true;
 
-  selectedHoursFormat: string = 'h';
+  selectedHoursFormat: string = 'hh';
   hoursFormats: string[] = ['h', 'hh', 'H', 'HH'];
 
-  selectedMinutesFormat: string = 'm';
+  selectedMinutesFormat: string = 'mm';
   minutesFormats: string[] = ['m', 'mm'];
 
   public hoursIndicator: any;
@@ -20,6 +29,10 @@ export class DigitalClockComponent implements OnInit {
   public secondsIndicator: any;
   public showTwelveHourConvention = true;
   public twelveHourConventionIndicator: string | undefined;
+
+  constructor(@Inject(DOCUMENT) private document: Document,
+    private el: ElementRef) { }
+
 
   ngOnInit(): void {
     setInterval(() => {
@@ -40,6 +53,36 @@ export class DigitalClockComponent implements OnInit {
     console.log(event.target.value);
     const selectedMinutesFormat = event.target.value;
     this.updateDate(date, this.selectedHoursFormat, selectedMinutesFormat);
+  }
+
+  startDrag($event: any): void {
+    $event.preventDefault();
+    const mouseX = $event.clientX;
+    const mouseY = $event.clientY;
+
+    const positionX = this.position.x;
+    const positionY = this.position.y;
+
+    const duringDrag = (e: any) => {
+      const dx = e.clientX - mouseX;
+      const dy = e.clientY - mouseY;
+      this.position.x = positionX + dx;
+      this.position.y = positionY + dy;
+      this.lastPosition = { ...this.position };
+    };
+
+    const finishDrag = (e: any) => {
+      this.document.removeEventListener('mousemove', duringDrag);
+      this.document.removeEventListener('mouseup', finishDrag);
+    };
+
+    this.document.addEventListener('mousemove', duringDrag);
+    this.document.addEventListener('mouseup', finishDrag);
+  }
+
+  manageFormatters(hideFormatters: boolean) {
+    this.hideFormatters = !hideFormatters;
+    return this.hideFormatters;
   }
 
   private updateDate(date: Date, selectedHoursFormat: string, selectedMinutesFormat: string) {
@@ -66,10 +109,11 @@ export class DigitalClockComponent implements OnInit {
     else if (selectedHoursFormat === 'H') {
       this.showTwelveHourConvention = false;
       this.hoursIndicator = hours;
-      this.hoursIndicator = this.hoursIndicator < 10 ? '0' + this.hoursIndicator.toString() : this.hoursIndicator;
     }
     else if (selectedHoursFormat === 'HH') {
+      this.showTwelveHourConvention = false;
       this.hoursIndicator = hours;
+      this.hoursIndicator = this.hoursIndicator < 10 ? '0' + this.hoursIndicator.toString() : this.hoursIndicator;
     }
 
     if (selectedMinutesFormat === 'm') {
@@ -78,7 +122,7 @@ export class DigitalClockComponent implements OnInit {
     else if (selectedMinutesFormat === 'mm') {
       this.minutesIndicator = minutes < 10 ? '0' + minutes.toString() : minutes;
     }
-    
+
     this.secondsIndicator = seconds < 10 ? '0' + seconds.toString() : seconds;
   }
 }
